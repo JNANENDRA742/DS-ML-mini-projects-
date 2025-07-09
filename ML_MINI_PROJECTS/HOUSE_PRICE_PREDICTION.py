@@ -7,7 +7,8 @@ from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from sklearn.tree import DecisionTreeRegressor
 
 # Load Data
-df = pd.read_csv("house_price_prediction_500rows_categorical.csv")
+# df = pd.read_csv("house_price_prediction_500rows_categorical.csv")
+df = pd.read_csv("ML_MINI_PROJECTS/house_price_prediction_500rows_categorical.csv")
 
 # Fill missing values with most repeated value
 df["GarageArea"] = df["GarageArea"].fillna(df["GarageArea"].mode()[0])
