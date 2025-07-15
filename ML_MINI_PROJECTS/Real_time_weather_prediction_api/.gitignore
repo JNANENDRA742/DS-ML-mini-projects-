@@ -1,0 +1,2 @@
+# Ignore all CSV files inside Data folder
+Data/*.csv
