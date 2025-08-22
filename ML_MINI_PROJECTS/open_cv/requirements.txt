@@ -1,0 +1,13 @@
+streamlit
+opencv-python
+numpy
+face-recognition
+pandas
+Pillow
+datetime
+pyttsx3
+cv2
+pickle
+os
+csv
+
