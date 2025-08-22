@@ -1,5 +1,6 @@
-streamlit
+streamlit>=1.22.0
 opencv-python
 numpy
-face-recognition
+face_recognition
+pillow    # For Streamlit and OpenCV image handling
 pyttsx3
