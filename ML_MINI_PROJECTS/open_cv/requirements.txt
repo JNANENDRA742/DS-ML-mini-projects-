@@ -1,8 +1,5 @@
 streamlit
 opencv-python
 numpy
-
-pandas
-Pillow
-datetime
+face-recognition
 pyttsx3
