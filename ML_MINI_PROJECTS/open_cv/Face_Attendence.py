@@ -442,5 +442,5 @@ with tab2:
             if distance is not None:
                 st.caption(f"Match distance: {distance:.3f}")
         else:
-            st.warning("👤 Face not recognized. Please register first in the **Register** tab.(and) make sure Your face is vlearly visible ")
-            # speak("Face not recognized. Please register first in the Register tab.")
+            st.warning("👤 Face not recognized. Please register first in the **Register** tab.(and) make sure Your face is clearly visible ")
+            speak("Face not recognized. Please register first in the Register tab.")
