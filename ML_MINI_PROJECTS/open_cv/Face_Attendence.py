@@ -31,15 +31,26 @@ def load_data():
     return [], [], []
 
 def ensure_attendance_files():
-    """Ensure both attendance CSV files exist with header."""
     if not os.path.exists(ATTENDANCE_FILE):
         with open(ATTENDANCE_FILE, "w", newline="") as f:
             writer = csv.writer(f)
             writer.writerow(["Name", "ID", "Date", "Time"])
-    if not os.path.exists(TODAY_FILE):
+
+    # Reset today.csv daily
+    today_str = datetime.now().strftime("%Y-%m-%d")
+    reset_today = True
+    if os.path.exists(TODAY_FILE):
+        with open(TODAY_FILE, "r") as f:
+            reader = csv.reader(f)
+            header = next(reader, None)
+            first_row = next(reader, None)
+            if first_row and first_row[2] == today_str:
+                reset_today = False
+    if reset_today:
         with open(TODAY_FILE, "w", newline="") as f:
             writer = csv.writer(f)
             writer.writerow(["Name", "ID", "Date", "Time"])
+
 
 def load_marked_ids_today():
     """Load IDs already marked today from today's file."""
@@ -57,13 +68,18 @@ def mark_attendance(name, id_no, marked_ids_today):
     time_str = datetime.now().strftime("%H:%M:%S")
 
     if id_no not in marked_ids_today:
-        with open(TODAY_FILE, "a", newline="") as f:
-            csv.writer(f).writerow([name, id_no, date, time_str])
+        # Always add to global attendance
         with open(ATTENDANCE_FILE, "a", newline="") as f:
             csv.writer(f).writerow([name, id_no, date, time_str])
+
+        # Add to today's attendance
+        with open(TODAY_FILE, "a", newline="") as f:
+            csv.writer(f).writerow([name, id_no, date, time_str])
+
         marked_ids_today.add(id_no)
         return True
     return False
+
 
 # ------------------ Image/encoding utils ------------------
 def bytes_to_bgr(image_bytes: bytes) -> np.ndarray:
@@ -414,8 +430,8 @@ with tab2:
             st.image(cv2.cvtColor(annotated_bgr, cv2.COLOR_BGR2RGB), caption="Processed Frame", use_container_width=True)
 
         if recognized is None:  # ✅ No face detected at all
-            st.warning("⚠️ No face detected. Please take a clear photo with your face visible.")
-            speak("No face detected. Please take a clear photo with your face visible.")
+            st.warning("⚠️ No face detected.(or) Face is Not visible. Please take a clear photo with your face visible.")
+            speak("No face detected.(or) Face is Not visible. Please take a clear photo with your face visible.")
         elif recognized:
             added = mark_attendance(name, id_no, st.session_state.marked_ids_today)
             if added:
