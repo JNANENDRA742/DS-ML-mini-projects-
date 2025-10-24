@@ -1,0 +1,9 @@
+streamlit
+transformers
+torch
+nltk
+emoji
+deep-translator
+pandas
+scipy
+tqdm
